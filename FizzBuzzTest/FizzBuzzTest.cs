@@ -1,63 +1,50 @@
+using Newtonsoft.Json.Linq;
+using NUnit.Framework;
+
 namespace FizzBuzzTest
 {
     public class FizzBuzzTest
     {
 
-        [Fact]
-        public void isDivisibleBy3()
+        [Test]
+        [TestCase(24,true)]
+        [TestCase(12,false)]
+        [TestCase(0,false)]
+        public void isFizz_DivisibibleBy3(int numberOfLap,bool value)
         {
             var fizzBuzz = new FizzBuzz.FizzBuzz();
-            string result = string.Empty;
-            string expectedResult = "Fizz";
-
-            result = fizzBuzz.PrintFizzBuzz(24);
-
-            Assert.Equal(expectedResult, result);
+            Assert.That(fizzBuzz.IsFizz(numberOfLap), Is.EqualTo(value));
         }
 
-        [Fact]
-        public void isDivisibleBy5()
+        [Test]
+        [TestCase(15, true)]
+        [TestCase(12, false)]
+        [TestCase(0, false)]
+        public void isBuzz_DivisibibleBy5(int numberOfLap, bool value)
         {
             var fizzBuzz = new FizzBuzz.FizzBuzz();
-            string result = string.Empty;
-            string expectedResult = "Buzz";
-
-            result = fizzBuzz.PrintFizzBuzz(20);
-
-            Assert.Equal(expectedResult, result);
+            Assert.That(fizzBuzz.IsBuzz(numberOfLap), Is.EqualTo(value));
         }
-        [Fact]
-        public void isNotDivisibleBy3and5_DontContains3or5()
+        [Test]
+        [TestCase(15, true)]
+        [TestCase(12, false)]
+        [TestCase(0, false)]
+        public void isFizzBuzz_DivisibibleBy3and5(int numberOfLap, bool value)
         {
             var fizzBuzz = new FizzBuzz.FizzBuzz();
-            string result = string.Empty;
-            string expectedResult = "2";
-
-            result = fizzBuzz.PrintFizzBuzz(2);
-
-            Assert.Equal(expectedResult, result);
+            bool result = fizzBuzz.IsBuzz(numberOfLap) && fizzBuzz.IsFizz(numberOfLap);
+            Assert.That(result, Is.EqualTo(value));
         }
-        [Fact]
-        public void itContains3()
+        [Test]
+        [TestCase(-1)]
+        [TestCase(-20)]
+        public void FizzBuzzArgumentExcpetion(int numberOfLap, bool value)
         {
             var fizzBuzz = new FizzBuzz.FizzBuzz();
-            string result = string.Empty;
-            string expectedResult = "Fizz";
 
-            result = fizzBuzz.PrintFizzBuzz(31);
-
-            Assert.Equal(expectedResult, result);
-        }
-        [Fact]
-        public void itContains5()
-        {
-            var fizzBuzz = new FizzBuzz.FizzBuzz();
-            string result = string.Empty;
-            string expectedResult = "Buzz";
-
-            result = fizzBuzz.PrintFizzBuzz(52);
-
-            Assert.Equal(expectedResult, result);
+            Assert.Throws<ArgumentException>(() => fizzBuzz.IsFizz(numberOfLap));
+            Assert.Throws<ArgumentException>(() => fizzBuzz.IsFizz(numberOfLap));
+            Assert.Throws<ArgumentException>(() => fizzBuzz.IsFizz(numberOfLap));
         }
 
     }
